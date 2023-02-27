@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
+.event-wrapper {
+    background: rgb(193, 179, 205);
+    background: linear-gradient(45deg, rgba(214, 208, 218, 1) 16%, rgba(237, 231, 237, 1) 23%, rgba(200, 189, 209, 1) 40%, rgba(213, 203, 222, 1) 70%);
+    color: black;
+    display: flex;
+    background: rgb(255 255 255);
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    border-radius: 20px;
+    min-height: 80px;
+    text-align: initial;
+    min-width: 400px;
+    max-width: 450px;
+    width: 80%;
+    margin-top: 20px;
+    border-top: 1px solid rgba(185, 133, 185, 0.678);
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+
+
+.event-textarea {
+    /* background: #D9D9D9; */
+    background-color: transparent;
+    border-left: 1px solid rgba(185, 133, 185, 0.278);
+    border-right: 1px solid rgba(185, 133, 185, 0.278);
+    // border-radius: 20px;
+    margin: 10px 20px 10px 20px;
+    padding: 10px 16px;
+    display: flex;
+
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    .event-image {
+        max-height: 200px;
+        max-width: 400px;
+        width: 100%;
+        border-radius: 15px;
+
+        img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+        }
+    }
+    .event-tf{
+        display: flex;
+        margin: 0.5em auto;
+        .event-theme, .event-format{
+            border-radius: 20px;
+            padding: 0.2em 0.5em;
+            width: fit-content;
+            margin: 0.2em
+        }
+        .event-theme{
+            background-color: rgba(190, 219, 235, 0.8);
+        }
+        .event-format {
+            background-color: rgba(233, 208, 208, 0.8);
+        }
+    }
+    .event-title {
+        font-weight: 800;
+        letter-spacing: 1px;
+        line-height: 1em;
+        margin: 1em 0 0.5em 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .event-footer {
+        display: flex;
+        flex-direction: column;
+        /* align-self: flex-start; */
+        /* justify-self: flex-end; */
+        font-family: 'Kadwa';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 31px;
+        margin: 0 10px;
+        letter-spacing: 0.02em;
+        background-color: transparent;
+        border: none;
+        color: #828282;
+        align-items: center;
+        justify-content: space-between;
+
+        :nth-child(1) {
+            display: flex;
+            gap: 20px;
+        }
+    }
+    .event-ticket-info {
+        display: flex;
+        margin: 2% 0;
+        .event-amount {
+            width: 100%;
+            background: rgba(226, 187, 223, 0.555);
+        }
+        .event-price {
+            background: rgba(180, 238, 153, 0.555);
+    
+            // border-radius: 20px;
+            max-width: 100%;
+            width: 100%;
+            // padding: 10px 15px;
+            max-height: 127px;
+            // margin: 20px 20px 0 0;
+        }
+    }
+}
+
+/* price and button*/
+
+
+.event-ticket button {
+    /* background: #9947D9; */
+    border-radius: 20px;
+    border: 1px solid transparent;
+    /* padding: 0.6em 1.2em; */
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 5px;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+    max-height: 64px;
+    height: 100%;
+    max-width: 200px;
+    width: 100%;
+    margin: 20px 0 0 0;
+
+}
+
+.event-ticket {
+    max-width: 200px;
+    width: 100%;
+}
+
+.event-price-text {
+    font-family: 'Kadwa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 31px;
+    /* or 78% */
+    margin: 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+
+    color: #000000;
+}
+
+.event-price-money {
+    font-family: 'Kadwa';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 31px;
+    /* identical to box height, or 78% */
+    margin: 0.5em;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+
+    color: #000000;
+}

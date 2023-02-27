@@ -1,0 +1,43 @@
+<svg id="layer_1" data-name="layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 288.5 560.5">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+        fill: url(#Безымянный_градиент_4);
+      }
+
+      .cls-1, .cls-2 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        font-size: 48px;
+        stroke: #f0f;
+        stroke-width: 0.5px;
+        font-family: MonotypeCorsiva, Monotype Corsiva;
+      }
+
+      .cls-3 {
+        fill: url(#Безымянный_градиент_8);
+      }
+    </style>
+    <linearGradient id="Безымянный_градиент_4" data-name="Безымянный градиент 4" x1="-78.86" y1="181.83" x2="436.13" y2="409.33" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.09" stop-color="#fcf8fa"/>
+      <stop offset="0.22" stop-color="#f5e4ee"/>
+      <stop offset="0.37" stop-color="#e8c3d9"/>
+      <stop offset="0.55" stop-color="#d796bc"/>
+      <stop offset="0.74" stop-color="#c15b97"/>
+      <stop offset="0.94" stop-color="#a6156a"/>
+      <stop offset="1" stop-color="#9e005d"/>
+    </linearGradient>
+    <linearGradient id="Безымянный_градиент_8" data-name="Безымянный градиент 8" x1="101.26" y1="443.78" x2="662.05" y2="691.51" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.6" stop-color="#d7c5e0"/>
+      <stop offset="1" stop-color="#ba9bc9"/>
+    </linearGradient>
+  </defs>
+  <rect class="cls-1" x="0.5" y="0.5" width="288" height="560"/>
+  <text class="cls-2" transform="translate(51.37 83.46)">Your event</text>
+  <path class="cls-3" d="M365.16,285.46c146.78,11.42,256.51,139.67,245.09,286.45S470.58,828.41,323.81,817,67.3,677.33,78.72,530.55,218.39,274,365.16,285.46Z"/>
+</svg>

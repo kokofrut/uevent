@@ -1,0 +1,130 @@
+/* navbar */
+
+.wrapper-header {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    height: 81px;
+    color: black;
+    background: #B3A9DA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.logo-svg {
+    height: 64px;
+}
+
+.searchbox {
+    /* search */
+
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    background-color: #FFFF;
+    border-radius: 20px;
+
+
+}
+
+.input-location {
+    font-family: 'Kadwa';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 31px;
+    /* or 163% */
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1em;
+    background-color: transparent;
+    border: none;
+    color: #828282;
+}
+
+.input-location:focus-visible {
+    outline: none;
+    border-radius: 20px;
+    background-color: #e9e9e9;
+}
+
+.vector-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+#country-state {
+    position: absolute;
+    top: 50px;
+    left: 45%;
+    width: 200px;
+}
+
+select {
+    background-color: #e9e9e9;
+    color: #828282;
+}
+
+.user-avatar {
+    border-radius: 50%;
+    border: 2px solid rgb(44, 44, 44);
+}
+
+// .user-avatar img {
+//     aspect-ratio: 1/1;
+//     width: 32px;
+//     height: 32px;
+// }
+.user-data {
+    display: flex;
+    /* position: absolute; */
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    /* top: calc(50% - height);
+    right: calc(10%); */
+    text-align: center;
+}
+
+.auth-btns {
+    /* background-color: red; */
+    position: absolute;
+    right: 5%;
+    padding: 5px;
+    display: flex;
+    gap: 20px;
+}
+
+.sign-in-btn,
+.sign-up-btn {
+    font-weight: 800;
+    background-color: #e9e9e9;
+    color: rgb(77, 58, 76);
+    font-family: 'Kadwa';
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 2px;
+    border-radius: 20px;
+    width: auto;
+    padding: 0px 25px;
+    height: 32px;
+}
+
+.user-info {
+    display: flex;
+}
+
+.user-avatar {
+    margin-left: 10px;
+}

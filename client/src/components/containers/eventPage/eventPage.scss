@@ -1,0 +1,98 @@
+.body-ep {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Paper-main {
+    min-height: 400px;
+    height: 100%;
+    min-width: 80vw;
+    width: 100%;
+}
+.Grid-cont {
+    min-height: 300px;
+}
+.Grid-cont div {
+    min-height: 300px;
+    height: 100%;
+}
+.map {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    margin: 10px;
+}
+.event-cnt {
+    min-height: 300px;
+    height: 100%;
+}
+
+.txt-fld-buy {
+    
+    width: 100%;
+}
+
+
+
+.light-purple {
+    color: #c2a3d3;
+}
+
+.event-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    /* color: #c2a3d3; */
+}
+
+.simCardImg {
+    aspect-ratio: 16/9;
+    max-width: 100%;
+    border-radius: 15px;
+}   
+
+.event-img-big {
+    // aspect-ratio: 16/9;
+
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: 100%;
+    border-radius: 15px;
+}
+.list-users::-webkit-scrollbar-track{
+    background: #ffffff;
+}
+
+.list-users::-webkit-scrollbar-thumb{
+    background-color: #bdaec1;
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+  }
+
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #bdaec1 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #bdaec1;
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+  }
