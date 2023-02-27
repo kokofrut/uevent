@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import "./mainpage.css"
 import Header from "../../common/header/Header"
+import Footer from '../../common/footer/Footer'
 import AllEvents from '../../modules/events/allEvents/allEvents'
 const GEOCODE_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
 function MainPage() {
@@ -16,7 +17,7 @@ function MainPage() {
     //   }
     useEffect(() => {
         const successCallback = (position) => {
-            console.log('code')
+            console.log('success position get')
             reverseGeoCoding(position.coords.latitude, position.coords.longitude)
           };
           
@@ -30,6 +31,7 @@ function MainPage() {
             <div>
                 <Header/>
                 <AllEvents/>
+                <Footer />
             </div>
         </div>
     )

@@ -8,7 +8,7 @@ import Settings from '../../modules/dashboard/settings/settings';
 import $api from '../../../api';
 import UserTickets from '../../modules/dashboard/userTickets/userTickets';
 import CompaniesUser from '../../modules/dashboard/companies/companiesUser'
-
+import Footer from '../../common/footer/Footer'
 
 
 const DashboardPage = () => {
@@ -145,13 +145,8 @@ const DashboardPage = () => {
             <UserTickets userTickets={userTickets} />
             <div className='blank h-100'></div>
             <CompaniesUser companies={userCompanies} />
-
-            {currentCompany ? (
-              <p>Current company: {currentCompany.name}</p>
-            ) : (
-              <p>No current company selected</p>
-            )}
           </div>
+          <Footer />
         </>
       ) : (
         <p>Please log in to view your dashboard</p>

@@ -9,11 +9,13 @@ import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import Header from '../../common/header/Header';
+import Footer from '../../common/footer/Footer'
 import './eventPage.scss';
 // import { change} from '../../features/currEvent/currEventSlice';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useLocation, useNavigate } from 'react-router';
+
 import { Link } from 'react-router-dom'
 import Comments from '../../modules/events/comments/Comments'
 // import GoogleMap from 'google-map-react';
@@ -22,8 +24,7 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import $api from '../../../api';
 const GEOCODE_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
 const GEOCODE_ADRESS = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses?f=pjson&addresses="
-const API_KEY = "AIzaSyDgTj47ECOh0Q0-lGOvERZgsflcA8DMizo"
-Geocode.setApiKey(API_KEY);
+
 Geocode.setRegion("ua");
 Geocode.setLocationType("ROOFTOP");
 Geocode.enableDebug();
@@ -389,6 +390,7 @@ function EventPage() {
           </Grid2>
         </Grid2>
       </Grid2>
+      <Footer />
     </div>
   )
 }

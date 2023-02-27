@@ -50,7 +50,7 @@ function AllEvents() {
 		setEventsInLoc(events.filter(event => event.location.split("/")[0] === location))
 	}, [location])
 
-	const pageLimit = 4;
+	const pageLimit = 6;
 	const offset = (page - 1) * pageLimit;
 	const eventsOnPage = eventsinloc.slice(offset, offset + pageLimit);
 
@@ -79,7 +79,7 @@ function AllEvents() {
 						</div>
 					</div>
 					<div className="pagination-wrapper">
-						<Pagination count={Math.ceil(eventsinloc.length / pageLimit)} page={page} showFirstButton showLastButton onChange={(event, value) => setPage(value)} />
+						<Pagination  count={Math.ceil(eventsinloc.length / pageLimit)} page={page} showFirstButton showLastButton onChange={(event, value) => setPage(value)} />
 					</div>
 				</>
 			}
