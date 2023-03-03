@@ -12,16 +12,16 @@ function MainPage() {
     const [theme, setTheme] = useState(false)
     let selectedTheme = theme ? darkTheme : lightTheme
     function toogleTheme() { setTheme(!theme); console.log(theme) }
-    // function setlocation(data) {
-    //     localStorage.setItem('location', data)
-    // }
-    // async function reverseGeoCoding(lat, lng) {
-    //     // Here the coordinates are in LatLng Format
-    //     // if you wish to use other formats you will have to change the lat and lng in the fetch URL
-    //     await fetch(GEOCODE_URL + `${lng},${lat}`).then(response => response.json()).then(data => setlocation(data.address.Neighborhood));
-    //     // const addressLabel = (data.address !== undefined) ? data.address.region : "Unknown";
-    //     // return addressLabel
-    //   }
+    function setlocation(data) {
+        localStorage.setItem('location', data)
+    }
+    async function reverseGeoCoding(lat, lng) {
+        // Here the coordinates are in LatLng Format
+        // if you wish to use other formats you will have to change the lat and lng in the fetch URL
+        await fetch(GEOCODE_URL + `${lng},${lat}`).then(response => response.json()).then(data => setlocation(data.address.Neighborhood));
+        // const addressLabel = (data.address !== undefined) ? data.address.region : "Unknown";
+        // return addressLabel
+      }
     useEffect(() => {
         const successCallback = (position) => {
             console.log('success position get')

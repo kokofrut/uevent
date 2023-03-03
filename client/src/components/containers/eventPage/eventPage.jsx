@@ -228,7 +228,6 @@ function EventPage() {
     lat = eventData.location.split('/')[1].split('N')[0]
     lng = eventData.location.split('/')[1].split('N')[1]
   }
-  // console.log(similarEvents[0].title)
   useEffect(() => {
     async function fetchSubscribers() {
       try {
@@ -277,9 +276,9 @@ function EventPage() {
   useEffect(() => {
     localStorage.setItem('currEvent', JSON.stringify(eventData))
   }, [eventData])
-  useEffect(() => {
-    reverseGeoCoding()
-  }, [])
+  // useEffect(() => {
+  //   reverseGeoCoding()
+  // }, [])
   function handleTicketBuy(e) {
     e.preventDefault()
     return navigate('/payment')
