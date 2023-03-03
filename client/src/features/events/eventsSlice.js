@@ -63,6 +63,18 @@ const initialState = {
         format: 'online',
         poster: "cardMedia.jpg"
     },
+    {
+        id:6,
+        title: "Under 14 enter only!",
+        date: new Date('2011-03-11T12:30:12Z'),
+        organizer: "PMC Sharics",
+        location: "Donetsk/48.00087357427656N37.80395161245578",
+        ticketPrice: 0,
+        ticketAmount: 1488,
+        theme: 'animals',
+        format: 'art show',
+        poster: "nnnoise.svg"
+    }
     ],
 
     inloc: [],

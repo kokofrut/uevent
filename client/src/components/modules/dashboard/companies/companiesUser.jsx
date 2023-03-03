@@ -3,7 +3,6 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Button, Card, Modal, TextField, Tooltip, Typography, Select, MenuItem, InputLabel, FormControl, CardContent, Box, InputAdornment } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -11,18 +10,10 @@ import dayjs from 'dayjs';
 import React from 'react';
 import './companies.scss';
 import '../../../containers/eventPage/eventPage.scss'
-const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search/"
-import MyAutocomplete from './Autocomplete'
-
-function FlyTo({ position }) {
-    function waitandfly() {
-        setTimeout(() => {
-            map.flyTo(position, 16)
-        }, 1300)
-    }
-    const map = useMap()
-    position && waitandfly()
-}
+import { NOMINATIM_URL } from '../../../../env'; // "https://nominatim.openstreetmap.org/search/"
+import MyAutocomplete from './Autocomplete.jsx'
+import FormatTheme from '../../../common/format-theme/FormatTheme.jsx';
+import MapPreview from '../../../common/map/Map.jsx';
 
 function EventPreview(props) {
     const { eventData, lat, lng, address, position, location } = props
@@ -33,64 +24,14 @@ function EventPreview(props) {
                 <Typography gutterBottom variant="h5" component="h2" align="left" sx={{ margin: "1.5em 0.5em 0.5em 0.5em", whiteSpace: "pre-line" }}>
                     {eventData.title ? eventData.title : 'Choose title...'}
                 </Typography>
-                <Box
-                    sx={{
-                        backgroundColor: "rgba(233, 208, 208, 0.8)",
-                        borderRadius: "20px",
-                        padding: "0.5em 1em",
-                        width: 'fit-content',
-                        margin: '0.5em 0.5em 1.5em 0.5em'
-                    }}
-                >
-                    <Typography>{eventData.format ? eventData.format : 'Choose format...'}</Typography>
-                </Box>
-                <Box
-                    sx={{
-                        backgroundColor: "rgba(190, 219, 235, 0.8)",
-                        borderRadius: "20px",
-                        padding: "0.5em 1em",
-                        width: 'fit-content',
-                        margin: '0.5em 0.5em 1.5em 0.5em'
-                    }}
-                >
-                    {console.log(eventData)}
-                    <Typography>{eventData.theme ? eventData.theme : 'Choose theme...'}</Typography>
-                </Box>
+                <FormatTheme eventData={eventData} />
                 <Grid2 container sx={{ minHeight: "300px" }}>
                     <Grid2 item xs={8} sm={8} md={8} sx={{ padding: "0 10px", display: "flex", justifyContent: "center", backgroundColor: "transparent", maxHeight: '400px', borderRadius: '15px' }}>
                         {eventData.poster ? <img src={eventData.poster} className="event-img-big" alt="Event Image" />: 
                         <img src="/no_photo.svg" className="event-img-big" alt="Event Image"></img>}
                     </Grid2>
                     <Grid2 item xs={4} sm={4} md={4}>
-                        <Box
-                            sx={{
-                                backgroundColor: "rebeccapurple",
-                                background: 'transparent',
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderRadius: "15px",
-                                height: "100%",
-                                width: "100%",
-                            }}
-                        >
-                            <MapContainer className='map' center={[48.6, 22.29]} zoom={11} scrollWheelZoom={true} >
-
-                                {console.log("location = " + location + " position= " + position)}
-                                {position && (
-                                    <Marker position={position}>
-                                        <Popup>{location}</Popup>
-                                    </Marker>
-                                )}
-                                {/* <LeafletControlGeocoder /> */}
-                                <FlyTo position={position} />
-                                <TileLayer
-                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                />
-                            </MapContainer>
-
-                        </Box>
+                        <MapPreview location={location} position={position} fly={true} lat={42.6} lng={22.29}/>
                     </Grid2>
                 </Grid2>
                 <Grid2 container sx={{ height: "auto", marginTop: "10px" }}>
@@ -165,12 +106,12 @@ function UserCompany({ data }) {
 
         if (query) {
             try {
-                const url = `https://nominatim.openstreetmap.org/search/${encodeURIComponent(
+                const url = `${NOMINATIM_URL}${encodeURIComponent(
                     query
                 )}?format=json&limit=1`;
                 const response = await fetch(url);
                 const data = await response.json();
-
+                console.log(data)
                 if (data.length > 0) {
                     const lat = parseFloat(data[0].lat);
                     const lon = parseFloat(data[0].lon);

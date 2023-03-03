@@ -1,23 +1,22 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import Auth from './components/containers/auth/auth'
+import App from './App.jsx'
+import Auth from './components/containers/auth/auth.jsx'
 import './index.scss'
 import { store } from './app/store'
-// import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux'
-import Dashboard from './components/containers/dashboard/dashboard'
-import EventPage from './components/containers/eventPage/eventPage'
-import PaymentPage from './components/containers/payment/PaymentPage'
+import Dashboard from './components/containers/dashboard/dashboard.jsx'
+import EventPage from './components/containers/eventPage/eventPage.jsx'
+import PaymentPage from './components/containers/payment/PaymentPage.jsx'
 
-import LoadingView from './components/common/loadingView/loadingView'
+import LoadingView from './components/common/loadingView/LoadingView.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 
-import { fetchEvents } from './features/events/eventsSlice'
+import { fetchEvents } from './features/events/eventsSlice.js'
 
 
 const router = createBrowserRouter([
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
     element: <App/>
     // fallback: smth
   },
-  // {
-  //   path: "/passTest",
-  //   element: <PassTest/>
-  // },
   {
     path: 'auth',
     element: <Auth/>

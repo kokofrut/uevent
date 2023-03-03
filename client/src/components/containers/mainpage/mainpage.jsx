@@ -1,10 +1,17 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import "./mainpage.css"
 import Header from "../../common/header/Header"
 import Footer from '../../common/footer/Footer'
 import AllEvents from '../../modules/events/allEvents/allEvents'
+
+import { darkTheme, lightTheme } from '../../../assets/theme'
+import { ThemeProvider } from '@mui/material'
+
 const GEOCODE_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
 function MainPage() {
+    const [theme, setTheme] = useState(false)
+    let selectedTheme = theme ? darkTheme : lightTheme
+    function toogleTheme() { setTheme(!theme); console.log(theme) }
     // function setlocation(data) {
     //     localStorage.setItem('location', data)
     // }
@@ -19,21 +26,23 @@ function MainPage() {
         const successCallback = (position) => {
             console.log('success position get')
             reverseGeoCoding(position.coords.latitude, position.coords.longitude)
-          };
-          
-          const errorCallback = (error) => {
+        };
+
+        const errorCallback = (error) => {
             console.log(error);
-          };
-          navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        };
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }, [])
     return (
-        <div className="wrapper">
-            <div>
-                <Header/>
-                <AllEvents/>
-                <Footer />
+        <ThemeProvider theme={selectedTheme}>
+            <div className="wrapper">
+                <div>
+                    <Header toogleTheme={toogleTheme}/>
+                    <AllEvents />
+                    <Footer />
+                </div>
             </div>
-        </div>
+        </ThemeProvider>
     )
 }
 

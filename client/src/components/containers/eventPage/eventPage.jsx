@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Paper, Table, TextField, Typography, Pagination  } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Paper, Table, TextField, Typography, Pagination, Tooltip, Zoom } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -6,18 +6,22 @@ import TableRow from '@mui/material/TableRow';
 import Geocode from "react-geocode";
 import Grid2 from '@mui/material/Unstable_Grid2';
 import 'leaflet/dist/leaflet.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
-import Header from '../../common/header/Header';
-import Footer from '../../common/footer/Footer'
+import Header from '../../common/header/Header.jsx';
+import Footer from '../../common/footer/Footer.jsx'
 import './eventPage.scss';
 // import { change} from '../../features/currEvent/currEventSlice';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useLocation, useNavigate } from 'react-router';
 
+import { darkTheme, lightTheme } from '../../../assets/theme'
+import { ThemeProvider } from '@mui/material'
+import FormatTheme from '../../common/format-theme/FormatTheme.jsx';
+import MapPreview from '../../common/map/Map.jsx';
 import { Link } from 'react-router-dom'
-import Comments from '../../modules/events/comments/Comments'
+import Comments from '../../modules/events/comments/Comments.jsx'
 // import GoogleMap from 'google-map-react';
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
@@ -28,8 +32,8 @@ const GEOCODE_ADRESS = "https://geocode.arcgis.com/arcgis/rest/services/World/Ge
 Geocode.setRegion("ua");
 Geocode.setLocationType("ROOFTOP");
 Geocode.enableDebug();
-
-
+import { GOOGLE_API_KEY } from '../../../env.js';
+Geocode.setApiKey(GOOGLE_API_KEY);
 function LeafletControlGeocoder() {
   const map = useMap();
 
@@ -129,63 +133,16 @@ export function EventPreview(props) {
         <Typography gutterBottom variant="h5" component="h2" align="left" sx={{ margin: "1.5em 0.5em 0.5em 0.5em", whiteSpace: "pre-line" }}>
           {eventData.title ? eventData.title : 'Choose title...'}
         </Typography>
-        <Box
-          sx={{
-            backgroundColor: "rgba(233, 208, 208, 0.8)",
-            borderRadius: "20px",
-            padding: "0.5em 1em",
-            width: 'fit-content',
-            margin: '0.5em 0.5em 1.5em 0.5em'
-          }}
-        >
-          <Typography>{eventData.format ? eventData.format : 'Choose format...'}</Typography>
-        </Box>
-        <Box
-          sx={{
-            backgroundColor: "rgba(190, 219, 235, 0.8)",
-            borderRadius: "20px",
-            padding: "0.5em 1em",
-            width: 'fit-content',
-            margin: '0.5em 0.5em 1.5em 0.5em'
-          }}
-        >
-          {console.log(eventData)}
-          <Typography>{eventData.theme ? eventData.theme : 'Choose theme...'}</Typography>
-        </Box>
+        <FormatTheme eventData={eventData} />
         <Grid2 container sx={{ minHeight: "300px" }}>
-          <Grid2 item xs={8} sm={8} md={8} sx={{ padding: "0 10px", backgroundColor: "transparent", maxHeight: '400px', borderRadius: '15px' }}>
+          <Grid2 item xs={8} sm={8} md={8} sx={{ display: "flex", justifyContent: "center", padding: "0 10px", backgroundColor: "transparent", maxHeight: '400px', borderRadius: '15px' }}>
             {eventData.poster ?
               <img src={"/" + eventData.poster} className="event-img-big" alt="Event Image" /> :
               <img src={"/no_photo.svg"} className="event-img-big" alt="Event Image" />}
 
           </Grid2>
           <Grid2 item xs={4} sm={4} md={4}>
-            <Box
-              sx={{
-                backgroundColor: "rebeccapurple",
-                background: 'transparent',
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "15px",
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              <MapContainer className='map' center={[lat, lng]} zoom={13} scrollWheelZoom={true}>
-                <Marker position={[lat, lng]}>
-                  <Popup>
-                    {address}
-                  </Popup>
-                </Marker>
-                {/* <LeafletControlGeocoder /> */}
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-              </MapContainer>
-
-            </Box>
+            <MapPreview fly={false} lat={lat} lng={lng} address={address} />
           </Grid2>
         </Grid2>
         <Grid2 container sx={{ height: "auto", marginTop: "10px" }}>
@@ -211,30 +168,66 @@ export function EventPreview(props) {
             </Box>
           </Grid2>
         </Grid2>
+        {/* <Adsense_ad /> */}
       </CardContent>
     </Card>
   )
 }
 
 function OrganizerCard({ eventData }) {
+
   return (
     <Card sx={{ minHeight: '200px', margin: '0 auto', width: 'auto', backgroundColor: 'white', borderRadius: '15px', padding: '10px' }}>
       <Typography gutterBottom variant="body1" color="text.secondary">
         {eventData.organizer}
       </Typography>
+
     </Card>
   )
 }
 function EventPage() {
-  const { state } = useLocation(); // todo: make it lenth of probably 3 of the events same type
+  const [theme, setTheme] = useState(false)
+  let selectedTheme = theme ? darkTheme : lightTheme
+  function toogleTheme() { setTheme(!theme); console.log(theme) }
+  // todo (fetch by  event id thaat is on URL last one like //event/4)
+  const handleLocationChange = async (e) => {
+    const query = e.target.value;
+    if (query) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/search/${encodeURIComponent(
+          query
+        )}?format=json&limit=1`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.length > 0) {
+          console.log(data)
+        } else {
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+    }
+  };
+  const { state } = useLocation();
   // const eventData = useSelector((state) => state.currEvent.currEvent)
   const navigate = useNavigate()
-  const { eventData, similarEvents } = state
+  let eventData = {}
+  let similarEvents = []
+  if (state) {
+    eventData = state.eventData
+    similarEvents = state.similarEvents
+  }
   const [subscribers, setSubscribers] = useState([])
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
-  let lat = eventData.location.split('/')[1].split('N')[0]
-  let lng = eventData.location.split('/')[1].split('N')[1]
+  let lat = 0
+  let lng = 0
+  if (eventData.location) {
+    lat = eventData.location.split('/')[1].split('N')[0]
+    lng = eventData.location.split('/')[1].split('N')[1]
+  }
   // console.log(similarEvents[0].title)
   useEffect(() => {
     async function fetchSubscribers() {
@@ -290,7 +283,7 @@ function EventPage() {
   function handleTicketBuy(e) {
     e.preventDefault()
     return navigate('/payment')
-    // Add your code here to handle the form submission
+
   }
   async function reverseGeoCoding() {
     // Here the coordinates are in LatLng Format
@@ -325,73 +318,79 @@ function EventPage() {
   }
 
   return (
-    <div className="wrapper">
-      <Header />
-      <EventPreview eventData={eventData} lat={lat} lng={lng} address={address} />
+    <ThemeProvider theme={selectedTheme}>
 
-      <Grid2 container direction='row' rowSpacing={2} sx={{ maxWidth: '80vw', margin: '1rem auto', cursor: 'default', textAlign: 'left' }} >
-        <Grid2 container xs={2} sm={2} md={2} direction='column' rowSpacing={2}>
-          <Grid2 item xs={12} sm={12} md={12}>
-            <OrganizerCard eventData={eventData} />
-          </Grid2>
-          <Grid2 item xs={12} sm={12} md={12} sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="body1" color="text.secondary">
-              Similar events
-            </Typography>
-          </Grid2>
-          {similarEvents.map((event, index) => (<SimilarEvent event={event} key={event.id} />))}
-        </Grid2>
-        <Grid2 container xs={10} sm={10} md={10} direction='column' rowSpacing={2} >
-          <Grid2 item xs={12} sm={12} md={12}>
-            <form method='post' action='' onSubmit={(e) => handleTicketBuy(e)}>
-              <Grid2 container direction='column' rowSpacing={2} sx={{
-                margin: '0 0 0 20px',
-                backgroundColor: 'white',
-                borderRadius: '10px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
-              }}>
-                <Grid2 item xs={12} sm={5} md={5} >
-                  <TextField variant='filled' className='txt-fld-buy' name='Fname' required label='Name'></TextField>
-                </Grid2>
-                <Grid2 item xs={12} sm={5} md={5} >
-                  <TextField variant='filled' className='txt-fld-buy' name='Lname' required label='Last Name'></TextField>
-                </Grid2>
-                <Grid2 item xs={12} sm={5} md={5} >
-                  <TextField variant='filled' className='txt-fld-buy' name='email' required label='Email' type='email'></TextField>
-                </Grid2>
-                <Grid2 item xs={12} sm={5} md={5} >
-                  {/* <TextField variant='filled' className='txt-fld-buy' name='phone' required label='Phone number'></TextField> */}
-                  <PhoneInput
-                    country={'ua'}
-                    value={phone}
-                    excludeCountries={'ru'}
-                    onChange={ph => setPhone(ph)}
-                  />
-                </Grid2>
-                <Grid2 item xs={12} sm={5} md={5}>
-                  <Button variant="contained" color="success" type='submit'>BUY TICKET</Button>
-                </Grid2>
-              </Grid2>
-            </form>
-          </Grid2>
-          <Grid2 item xs={12} sm={12} md={12}>
-            <Card className='list-users' sx={{ overflow: 'scroll', textAlign: 'center', maxHeight: '20vh', minHeight: '100px', height: 'auto', margin: '0 0 0 20px', borderRadius: "10px", padding: '10px', }}>
-              <Typography gutterBottom variant='body1'>
-                Users subscribed to this event
+      <div className="wrapper">
+        <Header toogleTheme={toogleTheme} />
+        <EventPreview eventData={eventData} lat={lat} lng={lng} address={address} />
+
+        <Grid2 container direction='row' rowSpacing={2} sx={{ maxWidth: '80vw', margin: '1rem auto', cursor: 'default', textAlign: 'left' }} >
+          <Grid2 container xs={2} sm={2} md={2} direction='column' rowSpacing={2}>
+            <Grid2 item xs={12} sm={12} md={12}>
+              <OrganizerCard eventData={eventData} />
+            </Grid2>
+            <Grid2 item xs={12} sm={12} md={12} sx={{ textAlign: 'center' }}>
+              <Typography gutterBottom variant="body1" color="text.secondary">
+                Similar events
               </Typography>
-              <DenseTable users={subscribers} />
-            </Card>
+            </Grid2>
+            {similarEvents.map((event, index) => (<SimilarEvent event={event} key={event.id} />))}
           </Grid2>
-          <Grid2 item xs={12} sm={12} md={12}>
-            <Comments />
+          <Grid2 container xs={10} sm={10} md={10} direction='column' rowSpacing={2} >
+            <Grid2 item xs={12} sm={12} md={12}>
+              <form method='post' action='' onSubmit={(e) => handleTicketBuy(e)}>
+                <Grid2 container direction='column' rowSpacing={2} sx={{
+                  margin: '0 0 0 20px',
+                  backgroundColor: 'white',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+                }}>
+                  <Grid2 item xs={12} sm={5} md={5} >
+                    <TextField variant='filled' className='txt-fld-buy' name='Fname' required label='Name'></TextField>
+                  </Grid2>
+                  <Grid2 item xs={12} sm={5} md={5} >
+                    <TextField variant='filled' className='txt-fld-buy' name='Lname' required label='Last Name'></TextField>
+                  </Grid2>
+                  <Grid2 item xs={12} sm={5} md={5} >
+                    <TextField variant='filled' className='txt-fld-buy' name='email' required label='Email' type='email'></TextField>
+                  </Grid2>
+                  <Grid2 item xs={12} sm={5} md={5} >
+                    {/* <TextField variant='filled' className='txt-fld-buy' name='phone' required label='Phone number'></TextField> */}
+                    <PhoneInput
+                      country={'ua'}
+                      value={phone}
+                      excludeCountries={'ru'}
+                      onChange={ph => setPhone(ph)}
+                    />
+                  </Grid2>
+                  <Grid2 item xs={12} sm={5} md={5}>
+                    <Button variant="contained" color="success" type='submit'>BUY TICKET</Button>
+                  </Grid2>
+                </Grid2>
+              </form>
+            </Grid2>
+            <Grid2 item xs={12} sm={12} md={12}>
+              <Card className='list-users' sx={{ overflow: 'scroll', textAlign: 'center', maxHeight: '20vh', minHeight: '100px', height: 'auto', margin: '0 0 0 20px', borderRadius: "10px", padding: '10px', }}>
+                <Typography gutterBottom variant='body1'>
+                  Users subscribed to this event
+                </Typography>
+                <DenseTable users={subscribers} />
+              </Card>
+            </Grid2>
+            <Grid2 item xs={12} sm={12} md={12}>
+              <Comments />
+            </Grid2>
+            <Grid2 item xs={12} sm={12} md={12}>
+              <TextField onChange={handleLocationChange} />
+            </Grid2>
           </Grid2>
         </Grid2>
-      </Grid2>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   )
 }
 

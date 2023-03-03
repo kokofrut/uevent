@@ -2,25 +2,19 @@ import { Button, Typography, Tooltip, Zoom } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { change } from '../../../../features/currEvent/currEventSlice'
-import LoadingView from '../../../common/loadingView/loadingView'
+import { change } from '../../../../features/currEvent/currEventSlice.js'
+import LoadingView from '../../../common/loadingView/LoadingView.jsx'
 import "./event.scss"
 function Event({ eventData, events }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // console.log(events)
-  // useEffect(() => {
-  //   let tmp = eventData.date
-  //   eventData.date = new Date(tmp)
-  // }, [])
   const similarEvents = events.filter(event => event.theme !== eventData.theme)
   function handleTicket(e) {
     dispatch(change(eventData))
     localStorage.setItem('currEvent', JSON.stringify(eventData))
     console.log(eventData.title + '\n' + similarEvents)
     console.log(eventData.poster)
-    navigate('event/' + eventData.id, { state: { similarEvents: similarEvents, eventData: eventData } })
-
+    navigate('event/' + eventData.id, { state: { similarEvents: similarEvents, eventData: eventData } }) // later delete it as it all will be done in EventPage
   }
   return (
     <div className="event-wrapper">

@@ -109,7 +109,8 @@
         "Your Self Care",
         "Your Strengths",
         "Your Values",
-        "Your Weaknesses"
+        "Your Weaknesses",
+        ""
     ],
     "formats": [
         "Album Release Party",
@@ -157,6 +158,7 @@
         "Training Session",
         "Virtual Event",
         "Webinar",
-        "Workshop"
+        "Workshop",
+        ""
     ]
 }

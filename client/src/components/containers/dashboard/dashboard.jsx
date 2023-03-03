@@ -9,8 +9,8 @@ import $api from '../../../api';
 import UserTickets from '../../modules/dashboard/userTickets/userTickets';
 import CompaniesUser from '../../modules/dashboard/companies/companiesUser'
 import Footer from '../../common/footer/Footer'
-
-
+import { darkTheme, lightTheme } from '../../../assets/theme'
+import { ThemeProvider } from '@mui/material'
 const DashboardPage = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [userTickets, setUserTickets] = useState([])
@@ -18,6 +18,11 @@ const DashboardPage = () => {
   const navigate = useNavigate();
   const [userCompanies, setUserCompanies] = useState([])
   const user = useSelector(state => state.user.user)
+  
+  const [theme, setTheme] = useState(false)
+  let selectedTheme = theme ? darkTheme : lightTheme
+  function toogleTheme() { setTheme(!theme); console.log(theme) }
+
   const handleLogout = () => {
     // Log the user out
     axios.post('/api/logout').then(() => {
@@ -31,6 +36,7 @@ const DashboardPage = () => {
       setCurrentCompany(response.data);
     });
   };
+
   useEffect(() => {
     async function fetchTickets() {
       let url = `/user/${user.id}/tickets`
@@ -67,55 +73,55 @@ const DashboardPage = () => {
     ])
     setUserTickets([
       {
-          id:1,
-          title: "Gathering in our new BIG BUILDING",
-          content: "Only for soldiers because they are so 'cool'",
-          date: new Date('2015-06-12T13:50:12Z'),
-          organizer: "Big D Company",
-          location: "Donetsk",
-          ticketPrice: 300,
-          ticketAmount: 123,
-          theme: 'buisness',
-          format: 'meeting',
+        id: 1,
+        title: "Gathering in our new BIG BUILDING",
+        content: "Only for soldiers because they are so 'cool'",
+        date: new Date('2015-06-12T13:50:12Z'),
+        organizer: "Big D Company",
+        location: "Donetsk",
+        ticketPrice: 300,
+        ticketAmount: 123,
+        theme: 'buisness',
+        format: 'meeting',
       },
       {
-          id:2,
-          title: "Celebrate with us",
-          content: "Only for soldiers because they are so 'cool'",
-          date: new Date('2015-05-12T13:50:12Z'),
-          organizer: "Big D Company",
-          location: "Donetsk",
-          ticketPrice: 200,
-          ticketAmount: 23,
-          theme: 'politics',
-          format: 'meeting',
+        id: 2,
+        title: "Celebrate with us",
+        content: "Only for soldiers because they are so 'cool'",
+        date: new Date('2015-05-12T13:50:12Z'),
+        organizer: "Big D Company",
+        location: "Donetsk",
+        ticketPrice: 200,
+        ticketAmount: 23,
+        theme: 'politics',
+        format: 'meeting',
       },
       {
-          id:3,
-          title: "Test test programming",
-          content: "php is shit'",
-          date: new Date(2015, 5, 12),
-          organizer: "pHuy",
-          location: "Donetsk",
-          ticketPrice: 1000,
-          ticketAmount: 123,
-          theme: 'programming',
-          format: 'meeting',
+        id: 3,
+        title: "Test test programming",
+        content: "php is shit'",
+        date: new Date(2015, 5, 12),
+        organizer: "pHuy",
+        location: "Donetsk",
+        ticketPrice: 1000,
+        ticketAmount: 123,
+        theme: 'programming',
+        format: 'meeting',
       },
       {
-          id:4,
-          title: "new ==== vebinar",
-          content: "Buisness idea'",
-          date: new Date(2015, 5, 12),
-          organizer: "Damn",
-          location: "Donetsk",
-          ticketPrice: 99,
-          ticketAmount: 20,
-          theme: 'buisness',
-          format: 'vebinar',
+        id: 4,
+        title: "new ==== vebinar",
+        content: "Buisness idea'",
+        date: new Date(2015, 5, 12),
+        organizer: "Damn",
+        location: "Donetsk",
+        ticketPrice: 99,
+        ticketAmount: 20,
+        theme: 'buisness',
+        format: 'vebinar',
       },
       {
-        id:5,
+        id: 5,
         title: "just to make sure it's 5th",
         content: "kok",
         date: new Date(2011, 3, 12),
@@ -126,7 +132,7 @@ const DashboardPage = () => {
         theme: 'test',
         format: 'online',
       },
-      ])
+    ])
   }, [])
 
   const handleSettings = () => {
@@ -134,24 +140,26 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className='wrapper'>
-      {loggedIn ? (
-        <>
-          <Header />
-          <div className='second-wrapper'>
-            <h1>Welcome to your dashboard</h1>
-            <Settings userData={user} />
-            <div className='blank h-100'></div>
-            <UserTickets userTickets={userTickets} />
-            <div className='blank h-100'></div>
-            <CompaniesUser companies={userCompanies} />
-          </div>
-          <Footer />
-        </>
-      ) : (
-        <p>Please log in to view your dashboard</p>
-      )}
-    </div>
+    <ThemeProvider theme={selectedTheme}>
+      <div className='wrapper'>
+        {loggedIn ? (
+          <>
+            <Header toogleTheme={toogleTheme} />
+            <div className='second-wrapper'>
+              <h1>Welcome to your dashboard</h1>
+              <Settings userData={user} />
+              <div className='blank h-100'></div>
+              <UserTickets userTickets={userTickets} />
+              <div className='blank h-100'></div>
+              <CompaniesUser companies={userCompanies} />
+            </div>
+            <Footer />
+          </>
+        ) : (
+          <p>Please log in to view your dashboard</p>
+        )}
+      </div>
+    </ThemeProvider>
   );
 };
 
