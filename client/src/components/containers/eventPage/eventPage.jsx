@@ -34,41 +34,7 @@ Geocode.setLocationType("ROOFTOP");
 Geocode.enableDebug();
 import { GOOGLE_API_KEY } from '../../../env.js';
 Geocode.setApiKey(GOOGLE_API_KEY);
-function LeafletControlGeocoder() {
-  const map = useMap();
 
-  useEffect(() => {
-    var geocoder = L.Control.Geocoder.nominatim();
-    if (typeof URLSearchParams !== "undefined" && location.search) {
-      // parse /?geocoder=nominatim from URL
-      var params = new URLSearchParams(location.search);
-      var geocoderString = params.get("geocoder");
-      if (geocoderString && L.Control.Geocoder[geocoderString]) {
-        geocoder = L.Control.Geocoder[geocoderString]();
-      } else if (geocoderString) {
-        console.warn("Unsupported geocoder", geocoderString);
-      }
-    }
-
-    L.Control.geocoder({
-      query: "",
-      placeholder: "Search here...",
-      defaultMarkGeocode: false,
-      geocoder
-    })
-      .on("markgeocode", function (e) {
-        var latlng = e.geocode.center;
-        L.marker(latlng)
-          .addTo(map)
-          .bindPopup(e.geocode.name)
-          .openPopup();
-        map.fitBounds(e.geocode.bbox);
-      })
-      .addTo(map);
-  }, []);
-
-  return null;
-}
 function DenseTable({ users }) {
   const rows = users
   return (
@@ -231,8 +197,7 @@ function EventPage() {
   useEffect(() => {
     async function fetchSubscribers() {
       try {
-        await $api.get(`/events/${eventData.id}/subs`)
-          .then((response) => response.json).then((data) => setSubscribers(data))
+        // check tg for this
       }
       catch (error) {
         console.error(error)
